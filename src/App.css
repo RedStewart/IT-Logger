@@ -1,0 +1,7 @@
+.icon-delete {
+  transition: 0.1s linear;
+}
+
+.icon-delete:hover {
+  color: red !important;
+}

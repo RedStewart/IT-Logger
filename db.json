@@ -1,25 +1,25 @@
 {
   "logs": [
     {
-      "id": 1,
-      "message": "Changed hard drive on workstation 005",
+      "message": "Changed network card in server 007",
       "attention": false,
-      "date": "07-22-2019",
-      "tech": "Sam Smith"
+      "tech": "Maxo Kream",
+      "date": "2019-07-23T11:14:05.556Z",
+      "id": 1
     },
     {
-      "id": 2,
-      "message": "Workstation 007 not posting",
+      "message": "Hard drive failed in workstation 002",
       "attention": true,
-      "date": "07-22-2019",
-      "tech": "John Doe"
+      "tech": "Tay K",
+      "date": "2019-07-23T11:14:42.711Z",
+      "id": 2
     },
     {
       "id": 3,
-      "message": "Changed memory on workstation 050",
+      "message": "Downloaded more dedibated wam for superkai64",
       "attention": false,
-      "date": "07-22-2019",
-      "tech": "Sara Wilson"
+      "tech": "Tay K",
+      "date": "2019-07-23T11:55:03.196Z"
     }
   ],
   "techs": [

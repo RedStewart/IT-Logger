@@ -20,7 +20,7 @@ const Logs = ({ log: { logs, loading }, getLogs }) => {
       <li className='collection-header'>
         <h4 className='center'>System Logs</h4>
       </li>
-      {!loading && logs === 0 ? (
+      {!loading && logs.length === 0 ? (
         <p className='center'>No logs to show...</p>
       ) : (
         logs.map(log => <LogItem log={log} key={log.id} />)
@@ -30,7 +30,8 @@ const Logs = ({ log: { logs, loading }, getLogs }) => {
 };
 
 Logs.propTypes = {
-  log: PropTypes.object.isRequired
+  log: PropTypes.object.isRequired,
+  getLogs: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
