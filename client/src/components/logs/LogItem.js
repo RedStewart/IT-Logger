@@ -2,13 +2,20 @@ import React from 'react';
 import Moment from 'react-moment';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { deleteLog, setCurrentLog } from '../../actions/logActions';
+import {
+  deleteLog,
+  setCurrentLog,
+  clearSearch
+} from '../../actions/logActions';
 
 import M from 'materialize-css/dist/js/materialize.min.js';
 
-const LogItem = ({ log, deleteLog, setCurrentLog }) => {
+const LogItem = ({ filtered, log, deleteLog, setCurrentLog, clearSearch }) => {
   const onDelete = () => {
     deleteLog(log._id);
+
+    if (filtered !== null) clearSearch();
+
     M.toast({ html: 'Log Deleted' });
   };
 
@@ -41,10 +48,15 @@ const LogItem = ({ log, deleteLog, setCurrentLog }) => {
 LogItem.propTypes = {
   log: PropTypes.object.isRequired,
   deleteLog: PropTypes.func.isRequired,
-  setCurrentLog: PropTypes.func.isRequired
+  setCurrentLog: PropTypes.func.isRequired,
+  clearSearch: PropTypes.func.isRequired
 };
 
+const mapStateToProps = state => ({
+  filtered: state.log.filtered
+});
+
 export default connect(
-  null,
-  { deleteLog, setCurrentLog }
+  mapStateToProps,
+  { deleteLog, setCurrentLog, clearSearch }
 )(LogItem);

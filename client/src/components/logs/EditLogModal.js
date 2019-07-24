@@ -3,9 +3,9 @@ import TechSelectOptions from '../techs/TechSelectOptions';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import M from 'materialize-css/dist/js/materialize.min.js';
-import { updateLog } from '../../actions/logActions';
+import { updateLog, clearSearch } from '../../actions/logActions';
 
-const EditLogModal = ({ current, updateLog }) => {
+const EditLogModal = ({ current, filtered, updateLog, clearSearch }) => {
   const [message, setMessage] = useState('');
   const [attention, setAttention] = useState(false);
   const [tech, setTech] = useState('');
@@ -37,6 +37,8 @@ const EditLogModal = ({ current, updateLog }) => {
       setMessage('');
       setTech('');
       setAttention(false);
+
+      if (filtered !== null) clearSearch();
     }
   };
 
@@ -94,7 +96,7 @@ const EditLogModal = ({ current, updateLog }) => {
           onClick={onSubmit}
           className='modal-close waves-effect blue waves-light btn'
         >
-          Enter
+          Update
         </a>
       </div>
     </div>
@@ -108,14 +110,17 @@ const modalStyle = {
 
 EditLogModal.propTypes = {
   current: PropTypes.object,
-  updateLog: PropTypes.func.isRequired
+  filtered: PropTypes.array,
+  updateLog: PropTypes.func.isRequired,
+  clearSearch: PropTypes.func
 };
 
 const mapStateToProps = state => ({
-  current: state.log.current
+  current: state.log.current,
+  filtered: state.log.filtered
 });
 
 export default connect(
   mapStateToProps,
-  { updateLog }
+  { updateLog, clearSearch }
 )(EditLogModal);
