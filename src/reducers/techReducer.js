@@ -21,10 +21,11 @@ export default (state = intialState, action) => {
         loading: false
       };
 
-    case TECHS_ERROR:
+    case ADD_TECH:
       return {
         ...state,
-        error: action.payload
+        techs: [...state.techs, action.payload],
+        loading: false
       };
 
     case SET_LOADING:
@@ -33,6 +34,13 @@ export default (state = intialState, action) => {
         loading: true
       };
 
+    case TECHS_ERROR:
+      console.error(action.payload);
+      return {
+        ...state,
+        error: action.payload,
+        loading: false
+      };
     default:
       return state;
   }
