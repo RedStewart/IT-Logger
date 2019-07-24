@@ -5,6 +5,7 @@ import {
   ADD_LOG,
   DELETE_LOG,
   SEARCH_LOGS,
+  CLEAR_SEARCH,
   SET_CURRENT,
   CLEAR_CURRENT,
   UPDATE_LOG
@@ -13,6 +14,7 @@ import {
 const initialState = {
   logs: null,
   current: null,
+  filtered: null,
   loading: false,
   error: null
 };
@@ -51,7 +53,16 @@ export default (state = initialState, action) => {
     case SEARCH_LOGS:
       return {
         ...state,
-        logs: action.payload
+        filtered: state.logs.filter(log => {
+          const regex = new RegExp(`${action.payload}`, 'gi');
+          return log.message.match(regex) || log.tech.match(regex);
+        })
+      };
+
+    case CLEAR_SEARCH:
+      return {
+        ...state,
+        filtered: null
       };
 
     case SET_CURRENT:

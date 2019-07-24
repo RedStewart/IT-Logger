@@ -7,7 +7,8 @@ import {
   SET_CURRENT,
   CLEAR_CURRENT,
   UPDATE_LOG,
-  SEARCH_LOGS
+  SEARCH_LOGS,
+  CLEAR_SEARCH
 } from './types';
 const axios = require('axios');
 
@@ -99,25 +100,39 @@ export const updateLog = log => async dispatch => {
   }
 };
 
-// search server for logs
-export const searchLogs = text => async dispatch => {
-  try {
-    setLoading();
-
-    const res = await fetch(`/logs?q=${text}`);
-    const data = await res.json();
-
-    dispatch({
-      type: SEARCH_LOGS,
-      payload: data
-    });
-  } catch (err) {
-    dispatch({
-      type: LOGS_ERROR,
-      payload: err.response.msg
-    });
-  }
+// search loaded logs
+export const searchLogs = text => {
+  return {
+    type: SEARCH_LOGS,
+    payload: text
+  };
 };
+
+export const clearSearch = () => {
+  return {
+    type: CLEAR_SEARCH
+  };
+};
+
+// search server for logs
+// export const searchLogs = text => async dispatch => {
+//   try {
+//     setLoading();
+
+//     const res = await fetch(`/logs?q=${text}`);
+//     const data = await res.json();
+
+//     dispatch({
+//       type: SEARCH_LOGS,
+//       payload: data
+//     });
+//   } catch (err) {
+//     dispatch({
+//       type: LOGS_ERROR,
+//       payload: err.response.msg
+//     });
+//   }
+// };
 
 // Set current log
 export const setCurrentLog = log => {
