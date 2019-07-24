@@ -1,7 +1,12 @@
-.icon-delete {
+.icon-delete,
+.collection-item {
   transition: 0.1s linear;
 }
 
 .icon-delete:hover {
   color: red !important;
+}
+
+.collection-item:hover {
+  background-color: whitesmoke;
 }
