@@ -1,26 +1,30 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import TechItem from './TechItem';
 import { getTechs } from '../../actions/techActions';
 
-const TechSelectOptions = ({ getTechs, tech: { techs, loading } }) => {
+const TechListModal = ({ getTechs, tech: { techs, loading } }) => {
   useEffect(() => {
     getTechs();
     // eslint-disable-next-line
   }, []);
 
   return (
-    !loading &&
-    techs !== null &&
-    techs.map(t => (
-      <option key={t.id} value={`${t.firstName} ${t.lastName}`}>
-        {t.firstName} {t.lastName}
-      </option>
-    ))
+    <div id='tech-list-modal' className='modal'>
+      <div className='modal-content'>
+        <h4>Technician List</h4>
+        <ul className='collection'>
+          {!loading &&
+            techs !== null &&
+            techs.map(tech => <TechItem tech={tech} key={tech._id} />)}
+        </ul>
+      </div>
+    </div>
   );
 };
 
-TechSelectOptions.propTypes = {
+TechListModal.propTypes = {
   tech: PropTypes.object.isRequired,
   getTechs: PropTypes.func.isRequired
 };
@@ -32,4 +36,4 @@ const mapStateToProps = state => ({
 export default connect(
   mapStateToProps,
   { getTechs }
-)(TechSelectOptions);
+)(TechListModal);

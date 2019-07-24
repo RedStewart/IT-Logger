@@ -5,50 +5,48 @@ import {
   SET_LOADING,
   TECHS_ERROR
 } from './types';
+const axios = require('axios');
 
-// Get techs from the server
+// Get all techs from the server
 export const getTechs = () => async dispatch => {
   try {
     setLoading();
 
-    const res = await fetch('/techs');
-    const data = await res.json();
+    const res = await axios.get('/api/techs');
 
     dispatch({
       type: GET_TECHS,
-      payload: data
+      payload: res.data
     });
   } catch (err) {
     dispatch({
       type: TECHS_ERROR,
-      payload: err.response.statusText
+      payload: err.response.msg
     });
   }
 };
 
-// add technician to server
-
+// Add technician to server
 export const addTech = tech => async dispatch => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  };
+
   try {
     setLoading();
 
-    const res = await fetch('/techs', {
-      method: 'POST',
-      body: JSON.stringify(tech),
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    });
-    const data = await res.json();
+    const res = await axios.post('/api/techs', tech, config);
 
     dispatch({
       type: ADD_TECH,
-      payload: data
+      payload: res.data
     });
   } catch (err) {
     dispatch({
       type: TECHS_ERROR,
-      payload: err.response.statusText
+      payload: err.response.msg
     });
   }
 };
@@ -58,9 +56,7 @@ export const deleteTech = id => async dispatch => {
   try {
     setLoading();
 
-    await fetch(`/techs/${id}`, {
-      method: 'DELETE'
-    });
+    await axios.delete(`/api/techs/${id}`);
 
     dispatch({
       type: DELETE_TECH,
@@ -69,7 +65,7 @@ export const deleteTech = id => async dispatch => {
   } catch (err) {
     dispatch({
       type: TECHS_ERROR,
-      payload: err.response.statusText
+      payload: err.response.msg
     });
   }
 };

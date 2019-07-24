@@ -9,49 +9,48 @@ import {
   UPDATE_LOG,
   SEARCH_LOGS
 } from './types';
+const axios = require('axios');
 
 // get all the logs
 export const getLogs = () => async dispatch => {
   try {
     setLoading();
 
-    const res = await fetch('/logs');
-    const data = await res.json();
+    const res = await axios.get('/api/logs');
 
     dispatch({
       type: GET_LOGS,
-      payload: data
+      payload: res.data
     });
   } catch (err) {
     dispatch({
       type: LOGS_ERROR,
-      payload: err.response.statusText
+      payload: err.response.msg
     });
   }
 };
 
 // Add new log
 export const addLog = log => async dispatch => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  };
+
   try {
     setLoading();
 
-    const res = await fetch('/logs', {
-      method: 'POST',
-      body: JSON.stringify(log),
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    });
-    const data = await res.json();
+    const res = await axios.post('/api/logs', log, config);
 
     dispatch({
       type: ADD_LOG,
-      payload: data
+      payload: res.data
     });
   } catch (err) {
     dispatch({
       type: LOGS_ERROR,
-      payload: err.response.statusText
+      payload: err.response.msg
     });
   }
 };
@@ -61,9 +60,7 @@ export const deleteLog = id => async dispatch => {
   try {
     setLoading();
 
-    await fetch(`/logs/${id}`, {
-      method: 'DELETE'
-    });
+    await axios.delete(`/api/logs/${id}`);
 
     dispatch({
       type: DELETE_LOG,
@@ -72,34 +69,32 @@ export const deleteLog = id => async dispatch => {
   } catch (err) {
     dispatch({
       type: LOGS_ERROR,
-      payload: err.response.statusText
+      payload: err.response.msg
     });
   }
 };
 
 // Update log on server
 export const updateLog = log => async dispatch => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  };
+
   try {
     setLoading();
 
-    const res = await fetch(`/logs/${log.id}`, {
-      method: 'PUT',
-      body: JSON.stringify(log),
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    });
-
-    const data = await res.json();
+    const res = await axios.put(`/api/logs/${log._id}`, log, config);
 
     dispatch({
       type: UPDATE_LOG,
-      payload: data
+      payload: res.data
     });
   } catch (err) {
     dispatch({
       type: LOGS_ERROR,
-      payload: err.response.statusText
+      payload: err.response.msg
     });
   }
 };
@@ -119,7 +114,7 @@ export const searchLogs = text => async dispatch => {
   } catch (err) {
     dispatch({
       type: LOGS_ERROR,
-      payload: err.response.statusText
+      payload: err.response.msg
     });
   }
 };
